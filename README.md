@@ -17,24 +17,24 @@ Với `P = 16` byte (xem `data/page_table.csv`).
 ```
 Paging Address Translation/
 ├── src/
-│   ├── main.cpp            # Chương trình chính: đọc CSV, chạy test, ghi kết quả
-│   ├── PageTable.h         # Khai báo PageTable, TranslationResult
-│   └── PageTable.cpp       # Nạp page table + logic dịch địa chỉ (6 bước)
+│   ├── main.cpp            
+│   ├── PageTable.h        
+│   └── PageTable.cpp      
 ├── data/
-│   ├── page_table.csv      # Page size + các entry (page, frame, valid)
-│   ├── test_cases.csv      # 11 test case kèm kết quả tính tay
-│   └── DATA_FORMAT.md      # Mô tả định dạng dữ liệu
+│   ├── page_table.csv     
+│   ├── test_cases.csv   
+│   └── DATA_FORMAT.md     
 ├── results/
-│   ├── actual_results.csv  # Kết quả thực tế (do chương trình sinh ra)
-│   └── trace.txt           # Trace từng bước (do chương trình sinh ra)
+│   ├── actual_results.csv  
+│   └── trace.txt           
 ├── verification/
-│   ├── verifier.h / .cpp   # Lớp Verifier phụ (tuỳ chọn), dùng chung PageTable
-└── paging.exe              # Bản build sẵn cho Windows
+│   ├── verifier.h / .cpp  
+└── paging.exe             
 ```
 
 ## Yêu cầu
 
-- Trình biên dịch C++ hỗ trợ C++11 trở lên (khuyến nghị `-std=c++17`), ví dụ **g++** (Linux/macOS) hoặc **MinGW-w64 g++** (Windows).
+- Trình biên dịch C++ hỗ trợ C++11 trở lên, ví dụ **g++** (Linux/macOS) hoặc **MinGW-w64 g++** (Windows).
 - Không cần thư viện ngoài, không cần `make` hay CMake.
 
 Kiểm tra đã cài g++:
@@ -130,8 +130,6 @@ diff --strip-trailing-cr results/actual_results.csv /tmp/actual_results.orig.csv
 diff --strip-trailing-cr results/trace.txt          /tmp/trace.orig.txt          && echo "Trace khop"
 ```
 
-> Cần `--strip-trailing-cr` vì các file gốc được sinh trên Windows (xuống dòng `CRLF`), còn Linux/macOS sinh `LF`. Nội dung giống hệt nhau.
-
 ## Các test case
 
 Page size `P = 16`, page table có 6 entry (page 0–5):
@@ -183,21 +181,3 @@ Sau khi sửa dữ liệu, chạy lại bằng:
 ```bash
 ./paging data/page_table.csv data/test_cases.csv results
 ```
-
-## Bộ kiểm tra phụ (`verification/`)
-
-`verification/verifier.h/.cpp` định nghĩa lớp `Verifier` (nạp test case, chạy kiểm tra, ghi kết quả và trace) dùng chung lớp `PageTable`. Thư mục này **không có hàm `main`** nên không build thành chương trình chạy độc lập; nó chỉ là thành phần tuỳ chọn để tích hợp vào chương trình khác. Kiểm tra cú pháp:
-
-```bash
-g++ -std=c++17 -fsyntax-only -Isrc verification/verifier.cpp
-```
-
-## Xử lý lỗi thường gặp
-
-| Triệu chứng | Nguyên nhân / cách xử lý |
-|---|---|
-| `Loi: khong mo duoc file ...` | Chạy sai thư mục. Hãy `cd` vào thư mục gốc của dự án hoặc truyền đường dẫn đầy đủ. |
-| `Loi: khong ghi duoc vao thu muc results` | Thư mục `results/` chưa tồn tại: `mkdir results`. |
-| `Loi: page_size phai la luy thua cua 2` | `page_size` trong `page_table.csv` không phải 4, 8, 16, 1024, … |
-| `Loi: Dong sai dinh dang hoac sai thu tu page` | Các dòng page không theo thứ tự 0, 1, 2, … hoặc thiếu cột. |
-| `g++: command not found` | Cài g++ (Linux: `sudo apt install g++`; macOS: `xcode-select --install`; Windows: cài MinGW-w64). |
