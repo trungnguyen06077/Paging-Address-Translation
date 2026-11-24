@@ -1,0 +1,12 @@
+test_id,logical_address,actual_status,actual_page,actual_offset,actual_frame,actual_physical_address,result
+TC01,0,OK,0,0,5,80,PASS
+TC02,15,OK,0,15,5,95,PASS
+TC03,16,OK,1,0,2,32,PASS
+TC04,31,OK,1,15,2,47,PASS
+TC05,37,OK,2,5,7,117,PASS
+TC06,47,OK,2,15,7,127,PASS
+TC07,48,INVALID_ENTRY,3,0,-1,-1,PASS
+TC08,64,OK,4,0,1,16,PASS
+TC09,80,INVALID_ENTRY,5,0,-1,-1,PASS
+TC10,96,PAGE_OUT_OF_TABLE,6,0,-1,-1,PASS
+TC11,-1,NEGATIVE_ADDRESS,-1,-1,-1,-1,PASS

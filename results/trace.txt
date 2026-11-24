@@ -1,0 +1,128 @@
+=== TRACE DICH DIA CHI ===
+Page size P = 16 bytes
+page | frame | valid
+0    | 5     | 1
+1    | 2     | 1
+2    | 7     | 1
+3    | -     | 0
+4    | 1     | 1
+5    | -     | 0
+
+--- TC01 ---
+Input: LA = 0, P = 16
+  Buoc 1: page = 0 / 16 = 0, offset = 0 mod 16 = 0
+  Buoc 2: page 0 < 6 -> co trong page table
+  Buoc 3: valid bit cua page 0 = 1 -> hop le
+  Buoc 4: frame = 5
+  Buoc 5: PA = 5 * 16 + 0 = 80
+  Buoc 6: ket qua PA = 80
+  Expected: OK / page=0 offset=0 frame=5 PA=80
+  Actual  : OK / page=0 offset=0 frame=5 PA=80
+  => PASS
+
+--- TC02 ---
+Input: LA = 15, P = 16
+  Buoc 1: page = 15 / 16 = 0, offset = 15 mod 16 = 15
+  Buoc 2: page 0 < 6 -> co trong page table
+  Buoc 3: valid bit cua page 0 = 1 -> hop le
+  Buoc 4: frame = 5
+  Buoc 5: PA = 5 * 16 + 15 = 95
+  Buoc 6: ket qua PA = 95
+  Expected: OK / page=0 offset=15 frame=5 PA=95
+  Actual  : OK / page=0 offset=15 frame=5 PA=95
+  => PASS
+
+--- TC03 ---
+Input: LA = 16, P = 16
+  Buoc 1: page = 16 / 16 = 1, offset = 16 mod 16 = 0
+  Buoc 2: page 1 < 6 -> co trong page table
+  Buoc 3: valid bit cua page 1 = 1 -> hop le
+  Buoc 4: frame = 2
+  Buoc 5: PA = 2 * 16 + 0 = 32
+  Buoc 6: ket qua PA = 32
+  Expected: OK / page=1 offset=0 frame=2 PA=32
+  Actual  : OK / page=1 offset=0 frame=2 PA=32
+  => PASS
+
+--- TC04 ---
+Input: LA = 31, P = 16
+  Buoc 1: page = 31 / 16 = 1, offset = 31 mod 16 = 15
+  Buoc 2: page 1 < 6 -> co trong page table
+  Buoc 3: valid bit cua page 1 = 1 -> hop le
+  Buoc 4: frame = 2
+  Buoc 5: PA = 2 * 16 + 15 = 47
+  Buoc 6: ket qua PA = 47
+  Expected: OK / page=1 offset=15 frame=2 PA=47
+  Actual  : OK / page=1 offset=15 frame=2 PA=47
+  => PASS
+
+--- TC05 ---
+Input: LA = 37, P = 16
+  Buoc 1: page = 37 / 16 = 2, offset = 37 mod 16 = 5
+  Buoc 2: page 2 < 6 -> co trong page table
+  Buoc 3: valid bit cua page 2 = 1 -> hop le
+  Buoc 4: frame = 7
+  Buoc 5: PA = 7 * 16 + 5 = 117
+  Buoc 6: ket qua PA = 117
+  Expected: OK / page=2 offset=5 frame=7 PA=117
+  Actual  : OK / page=2 offset=5 frame=7 PA=117
+  => PASS
+
+--- TC06 ---
+Input: LA = 47, P = 16
+  Buoc 1: page = 47 / 16 = 2, offset = 47 mod 16 = 15
+  Buoc 2: page 2 < 6 -> co trong page table
+  Buoc 3: valid bit cua page 2 = 1 -> hop le
+  Buoc 4: frame = 7
+  Buoc 5: PA = 7 * 16 + 15 = 127
+  Buoc 6: ket qua PA = 127
+  Expected: OK / page=2 offset=15 frame=7 PA=127
+  Actual  : OK / page=2 offset=15 frame=7 PA=127
+  => PASS
+
+--- TC07 ---
+Input: LA = 48, P = 16
+  Buoc 1: page = 48 / 16 = 3, offset = 48 mod 16 = 0
+  Buoc 2: page 3 < 6 -> co trong page table
+  Buoc 3: valid bit cua page 3 = 0 -> INVALID_ENTRY
+  Expected: INVALID_ENTRY / page=3 offset=0 frame=-1 PA=-1
+  Actual  : INVALID_ENTRY / page=3 offset=0 frame=-1 PA=-1
+  => PASS
+
+--- TC08 ---
+Input: LA = 64, P = 16
+  Buoc 1: page = 64 / 16 = 4, offset = 64 mod 16 = 0
+  Buoc 2: page 4 < 6 -> co trong page table
+  Buoc 3: valid bit cua page 4 = 1 -> hop le
+  Buoc 4: frame = 1
+  Buoc 5: PA = 1 * 16 + 0 = 16
+  Buoc 6: ket qua PA = 16
+  Expected: OK / page=4 offset=0 frame=1 PA=16
+  Actual  : OK / page=4 offset=0 frame=1 PA=16
+  => PASS
+
+--- TC09 ---
+Input: LA = 80, P = 16
+  Buoc 1: page = 80 / 16 = 5, offset = 80 mod 16 = 0
+  Buoc 2: page 5 < 6 -> co trong page table
+  Buoc 3: valid bit cua page 5 = 0 -> INVALID_ENTRY
+  Expected: INVALID_ENTRY / page=5 offset=0 frame=-1 PA=-1
+  Actual  : INVALID_ENTRY / page=5 offset=0 frame=-1 PA=-1
+  => PASS
+
+--- TC10 ---
+Input: LA = 96, P = 16
+  Buoc 1: page = 96 / 16 = 6, offset = 96 mod 16 = 0
+  Buoc 2: page 6 >= so entry (6) -> INVALID (ngoai page table)
+  Expected: PAGE_OUT_OF_TABLE / page=6 offset=0 frame=-1 PA=-1
+  Actual  : PAGE_OUT_OF_TABLE / page=6 offset=0 frame=-1 PA=-1
+  => PASS
+
+--- TC11 ---
+Input: LA = -1, P = 16
+  Buoc 1: LA = -1 < 0 -> INVALID
+  Expected: NEGATIVE_ADDRESS / page=-1 offset=-1 frame=-1 PA=-1
+  Actual  : NEGATIVE_ADDRESS / page=-1 offset=-1 frame=-1 PA=-1
+  => PASS
+
+Tong ket: 11/11 test PASS
